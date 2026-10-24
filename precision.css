@@ -1,0 +1,5 @@
+/* SVS EXPERIENCE V4 — MOTION SYSTEM
+   Typographic hierarchy, kinetic transitions, procedural biomedical art.
+   All effects can be paused; no remote fonts, libraries or tracking scripts. */
+:root{--m-ink:#162b30;--m-forest:#113d38;--m-deep:#102e30;--m-mint:#d9f6e4;--m-lime:#d7f1b9;--m-cream:#fafaf8;--m-gray:#687c7d;--m-line:#dce5e0;--m-violet:#8e75ba;--m-ease:cubic-bezier(.22,1,.36,1)}
+html{scroll-behavior:smooth;scroll-padding-top:90px}body{background:var(--m-cream);color:var(--m-ink)}a:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid #5e9e8b;outline-offset:4px}

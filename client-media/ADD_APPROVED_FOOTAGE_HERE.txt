@@ -1,0 +1,5 @@
+SVS Experience V4 supports locally approved photographs via client-media/config.js.
+Place verified institutional photos in this folder and update config.js paths.
+A reference screen recording is NOT a licensed/approved website media asset.
+Suggested photos: svs-hospital-approved.jpg, svs-academics-approved.jpg, svs-campus-approved.jpg
+Do not store patient-identifying imagery or medical records.

@@ -1,0 +1,62 @@
+[
+  {
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "checks": {
+      "route": "home",
+      "videoLoaded": true,
+      "videoPlaying": true,
+      "captionRemoved": true,
+      "pauseButtonRemoved": true,
+      "pageFits": true,
+      "videoFullWidth": true,
+      "searchVisible": true,
+      "heroHeight": 802.484375,
+      "departmentRouteWorking": true
+    },
+    "js_errors": []
+  },
+  {
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "checks": {
+      "route": "home",
+      "videoLoaded": true,
+      "videoPlaying": true,
+      "captionRemoved": true,
+      "pauseButtonRemoved": true,
+      "pageFits": true,
+      "videoFullWidth": true,
+      "searchVisible": true,
+      "heroHeight": 913,
+      "departmentRouteWorking": true
+    },
+    "js_errors": []
+  },
+  {
+    "device": "mobile",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "checks": {
+      "route": "home",
+      "videoLoaded": true,
+      "videoPlaying": true,
+      "captionRemoved": true,
+      "pauseButtonRemoved": true,
+      "pageFits": true,
+      "videoFullWidth": true,
+      "searchVisible": true,
+      "heroHeight": 738,
+      "departmentRouteWorking": true
+    },
+    "js_errors": []
+  }
+]
