@@ -1,4 +1,4 @@
-name: Deploy SVS Multi-Site to Cloudflare Pages
+name: Deploy SVS V26 Multi-Site to Cloudflare Pages
 on:
   workflow_dispatch:
   push:

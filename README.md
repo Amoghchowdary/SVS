@@ -1,4 +1,4 @@
-# SVS Group of Institutions — V25 Editorial Legacy
+# SVS Group of Institutions — V26 Editorial Legacy
 
 **Complete, independent six-destination website package.** This version does not require V24, V23, or any previous folder. All front-end source, images, campus video, page templates, local server, Cloudflare Pages Worker, and GitHub Actions files are bundled.
 
@@ -18,7 +18,7 @@ All destinations have individual **Home / Our story / Programmes or Services / D
 ## Quick start — Windows PowerShell
 
 ```powershell
-cd "C:\Users\SarkshGroups\OneDrive\Desktop\SVS\SVS_MultiSite_V25_Editorial_Legacy"
+cd "C:\Users\SarkshGroups\OneDrive\Desktop\SVS\SVS_MultiSite_V26_CI_Verified"
 
 node --version
 npm run build
@@ -26,9 +26,9 @@ npm test
 npm run dev
 ```
 
-Node.js **20+** required. `npm install` is optional because V25 uses no external runtime packages. Use `START_V25_LOCAL.bat` to launch directly. You can stop the local server using Ctrl+C.
+Node.js **20+** required. `npm install` is optional because V26 uses no external runtime packages. Use `START_V26_LOCAL.bat` to launch directly. You can stop the local server using Ctrl+C.
 
-## Design changes from V24
+## Preserved V25 website design and V26 GitHub CI fixes
 
 - **No boxed video:** group home hero remains a full-bleed version of the official supplied aerial campus video.
 - **Heritage editorial typography:** calm serif headlines, restrained colour, wider content and consistent spacing.
@@ -47,11 +47,11 @@ src/legacy-icons.cjs      Consistent inline SVGs
 scripts/build.cjs         Generates 36 complete HTML pages and the public distribution
 scripts/server.cjs        One HTTP server; routes by hostname or `?site=` on port 3003
 scripts/verify.cjs        Base structural checks
-scripts/verify-v25.cjs    V25-specific source/asset/content checks
+scripts/verify-v26.cjs    V26-specific source/asset/content checks
 scripts/worker_verify.mjs Tests host routing at the Cloudflare Worker layer
 public/site.js            Accessible navigation, switcher, filtering, motion policy
 public/site.css           Reset
-public/editorial-v25.css  Full responsive institutional design system
+public/editorial-v26.css  Full responsive institutional design system
 public/assets/official/  Local official photos and campus video
 cloudflare/_worker.js     Multi-domain site dispatch for Cloudflare Pages
 dist/                     Complete ready-built deployment output

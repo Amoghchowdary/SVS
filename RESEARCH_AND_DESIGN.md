@@ -1,4 +1,4 @@
-# V25 — Design & Technical Research Notes
+# V26 — Design & Technical Research Notes
 
 ## Design choices
 - Parent SVS site is a **historical institutional narrative**, not a startup product page: full-width campus film, establishment story, photograph-led five-site directory, learning & infrastructure sections.
@@ -15,5 +15,5 @@
 - All needed media files are local in `public/assets/official/`. No Google Fonts, image CDN or runtime API dependency.
 - Medical college historical facts are sourced from the supplied brochure; external standards inform site construction but do not replace the brochure.
 - Preliminary local render tests are not Lighthouse or real-user Core Web Vitals scores. Those require measurement after production hosting.
-- The full-bleed video is muted and respects system reduced-motion preferences. V25 preserves the customer's uncluttered video-only hero design. A video pause control remains a consideration for full WCAG 2.2 conformance where motion continues beyond five seconds.
+- The full-bleed video is muted and respects system reduced-motion preferences. V26 preserves the customer's uncluttered video-only hero design. A video pause control remains a consideration for full WCAG 2.2 conformance where motion continues beyond five seconds.
 - Medical accessibility, public regulatory disclosures and institutional approvals require human sign-off beyond frontend checks.

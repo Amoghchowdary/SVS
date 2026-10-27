@@ -1,4 +1,4 @@
-// Source-reviewed V25 verified content map (medical-college brochure). Draft dental and nursing details are not represented as verified.
+// Source-reviewed V26 verified content map (medical-college brochure). Draft dental and nursing details are not represented as verified.
 const institution={
  id:'group',name:'SVS Group of Institutions',short:'SVS Group',type:'group',eyebrow:'ONE LEGACY · FIVE DISTINCT EXPERIENCES',
  headline:'Learning, healing, and serving — together.',subheading:'Five pathways. One shared commitment to education and compassionate care.',

@@ -1,4 +1,4 @@
-# V25 — SVS Content Verification & Editorial Decisions
+# V26 — SVS Content Verification & Editorial Decisions
 
 ## Source provided
 `SVSMC College Information Brochure - Ver 1.2(1).docx` — 37-page SVS Medical College Hospital brochure.
@@ -15,7 +15,7 @@
 | Contact: Yenugonda, Mahabubnagar; phone 08542-227902; email svsmc_mbnr@yahoo.co.in | Cover page | Contact page and footer | Confirm present-day details with institution |
 
 ## Unresolved source discrepancies
-The brochure refers to both **more than 1,024 beds** (page 9) and **1,043 teaching beds** (page 10). V25 **does not place either figure in headline stats**. Resolve with the institution's signed current capacity data before publication.
+The brochure refers to both **more than 1,024 beds** (page 9) and **1,043 teaching beds** (page 10). V26 **does not place either figure in headline stats**. Resolve with the institution's signed current capacity data before publication.
 
 The brochure includes dated attendance, bond, disciplinary and other policies, as well as student portal details mentioning a default PIN. These are not copied into the public website as current instructions. Legal / regulatory publication requires fresh institutional review. **Do not publish the default PIN.**
 

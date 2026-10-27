@@ -13,14 +13,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Confirm GitHub checkout contains Git metadata
+        run: test -d .git
       - name: Build six site variants
         run: npm run build
-      - name: Verify source, assets, routes and site content
+      - name: Verify 6 sites, assets and Git-checkout-safe V26 release
         run: npm test
       - name: Store deployable Cloudflare Pages output
         uses: actions/upload-artifact@v4
         with:
-          name: svs-v25-editorial-multisite-dist
+          name: svs-v26-multisite-dist
           path: dist/
           include-hidden-files: true
           retention-days: 7

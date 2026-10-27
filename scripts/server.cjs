@@ -25,4 +25,4 @@ const server=http.createServer((req,res)=>{
   res.writeHead(status,headers);if(req.method==='HEAD'){res.end();return}fs.createReadStream(file,{start,end}).pipe(res);
  }catch(err){console.error(err);res.writeHead(500);res.end('Server error');}
 });
-server.listen(port,host,()=>console.log(`SVS V25 on port ${port}\nGroup: http://localhost:${port}\nMedical College: http://medicalcollege.localhost:${port}\nMedical Hospital: http://medicalhospital.localhost:${port}\nDental College: http://dentalcollege.localhost:${port}\nDental Hospital: http://dentalhospital.localhost:${port}\nNursing College: http://nursingcollege.localhost:${port}\nFallback: http://localhost:${port}/?site=medicalcollege`));
+server.listen(port,host,()=>console.log(`SVS V26 on port ${port}\nGroup: http://localhost:${port}\nMedical College: http://medicalcollege.localhost:${port}\nMedical Hospital: http://medicalhospital.localhost:${port}\nDental College: http://dentalcollege.localhost:${port}\nDental Hospital: http://dentalhospital.localhost:${port}\nNursing College: http://nursingcollege.localhost:${port}\nFallback: http://localhost:${port}/?site=medicalcollege`));
