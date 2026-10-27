@@ -1,0 +1,4 @@
+{
+  "rootDomain": "",
+  "comment": "Enter the actual registered parent domain here, for example svsgroup.in, before production deployment. Leave empty for localhost testing."
+}

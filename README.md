@@ -1,35 +1,73 @@
-# SVS Experience V21 — Official Full-Screen Video Website
+# SVS Group of Institutions — V25 Editorial Legacy
 
-SVS medical education and hospital website, adapted from V20 for GitHub Pages deployment.
+**Complete, independent six-destination website package.** This version does not require V24, V23, or any previous folder. All front-end source, images, campus video, page templates, local server, Cloudflare Pages Worker, and GitHub Actions files are bundled.
 
-## Changes
-- Official SVS aerial video fills the whole homepage hero.
-- Removed the dark "Where clinical learning takes flight" caption panel and playback button.
-- Preserved headline, CTAs, specialty search, 15 animated departmental icons, and all public pages.
-- Responsive breakpoints for desktop (1440 px), tablet (768 px), and mobile (390 px).
-- Added GitHub Actions workflow at `.github/workflows/deploy-pages.yml`.
-- Added safe first-push script for [Amoghchowdary/SVS](https://github.com/Amoghchowdary/SVS).
+## Six destinations
 
-## Run locally on Windows
+| Website | Local URL (port 3003) |
+| --- | --- |
+| SVS Group of Institutions | http://localhost:3003/ |
+| SVS Medical College | http://medicalcollege.localhost:3003/ |
+| SVS Medical College Hospital | http://medicalhospital.localhost:3003/ |
+| SVS Dental College | http://dentalcollege.localhost:3003/ |
+| SVS Dental Hospital | http://dentalhospital.localhost:3003/ |
+| SVS Nursing College | http://nursingcollege.localhost:3003/ |
+
+All destinations have individual **Home / Our story / Programmes or Services / Departments / Facilities / Contact** pages. The main group portal links to all five. Use `http://localhost:3003/?site=medicalcollege` as a fallback if Windows browser/DNS does not resolve `*.localhost`.
+
+## Quick start — Windows PowerShell
+
 ```powershell
-npm ci
+cd "C:\Users\SarkshGroups\OneDrive\Desktop\SVS\SVS_MultiSite_V25_Editorial_Legacy"
+
+node --version
+npm run build
 npm test
 npm run dev
 ```
-Or double-click `START_V21_DEVELOPMENT.bat`.
 
-## Push and deploy
-1. Extract this folder to your preferred SVS project directory.
-2. Double-click `PUSH_V21_GITHUB.bat`, or use PowerShell:
-   ```powershell
-   Set-ExecutionPolicy -Scope Process Bypass -Force
-   .\PUSH_V21_GITHUB.ps1
-   ```
-3. Open the GitHub repository's **Settings > Pages > Build and deployment**, and select **GitHub Actions**.
-4. The workflow runs `npm ci`, source/route checks, `npm run build`, then uploads and deploys `dist/`.
-5. After Actions succeeds, the intended public URL is `https://amoghchowdary.github.io/SVS/`.
+Node.js **20+** required. `npm install` is optional because V25 uses no external runtime packages. Use `START_V25_LOCAL.bat` to launch directly. You can stop the local server using Ctrl+C.
 
-The push helper uses normal git push without force. If GitHub main already contains unrelated commits, it stops instead of overwriting them.
+## Design changes from V24
 
-## Publishing notes
-This is still a client design review build. The staff dashboard and enquiry form use browser-local demo data, not production authentication or a backend. They must not be used for private staff or patient data.
+- **No boxed video:** group home hero remains a full-bleed version of the official supplied aerial campus video.
+- **Heritage editorial typography:** calm serif headlines, restrained colour, wider content and consistent spacing.
+- **In-depth writing:** revised from the supplied SVS brochure, without generic company slogans or unexplained numbers.
+- **Photography-rich institution tiles:** five distinct destinations with visible media and individual vector icons.
+- **Fuller academic and clinical pages:** editorial introduction, programme/service panels, photographs, practical information, facilities, and support links.
+- **Responsive navigation:** desktop horizontal menu, tablet and mobile toggle, keyboard-accessible institution switcher.
+- **No DNA/galaxy assets:** those were removed from the earlier production direction.
+
+## Source structure
+
+```text
+src/content.cjs           Medical-college brochure content and institution maps
+src/editorial.cjs         Extended contextual editorial copy for each institution
+src/legacy-icons.cjs      Consistent inline SVGs
+scripts/build.cjs         Generates 36 complete HTML pages and the public distribution
+scripts/server.cjs        One HTTP server; routes by hostname or `?site=` on port 3003
+scripts/verify.cjs        Base structural checks
+scripts/verify-v25.cjs    V25-specific source/asset/content checks
+scripts/worker_verify.mjs Tests host routing at the Cloudflare Worker layer
+public/site.js            Accessible navigation, switcher, filtering, motion policy
+public/site.css           Reset
+public/editorial-v25.css  Full responsive institutional design system
+public/assets/official/  Local official photos and campus video
+cloudflare/_worker.js     Multi-domain site dispatch for Cloudflare Pages
+dist/                     Complete ready-built deployment output
+.github/workflows/        CI verification and optional Cloudflare deploy workflow
+```
+
+## Production deployment
+
+See `DNS_SETUP.md`. Configure `config/domain.json` with the approved registered domain before production build. The six-domain routing design is intended for one Cloudflare Pages project with host-based selection. Each hostname must be added in Cloudflare Pages as a custom domain and configured in DNS; a DNS record alone is not the deployment.
+
+A GitHub Actions verification workflow runs automatically on pull requests and `main`. Optional Cloudflare deployment is gated behind repository configuration and does **not** run until secrets and project variable exist.
+
+## Content publication gates
+
+The brochure documents society establishment in **1997** and medical college establishment in **1999**. MBBS and postgraduate MD/MS programmes, facilities and departments are described there, but current approvals, seat intakes, doctors, fees, and availability should be independently signed off by SVS before public publication.
+
+The supplied medical-college brochure does **not** establish dental and nursing colleges' full course inventories, founding dates, approvals or seat figures. Their websites are deliberately navigable yet avoid inventing official details. The available group photographs cannot be represented as photographs of unverified dental facilities.
+
+There is **no production patient portal, student authentication, scheduling, appointment booking, or backend storage** in this version. Contact information is displayed without an insecure demo form.

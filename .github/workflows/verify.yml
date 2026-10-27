@@ -1,0 +1,26 @@
+name: Verify SVS Multi-Site
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build six site variants
+        run: npm run build
+      - name: Verify source, assets, routes and site content
+        run: npm test
+      - name: Store deployable Cloudflare Pages output
+        uses: actions/upload-artifact@v4
+        with:
+          name: svs-v25-editorial-multisite-dist
+          path: dist/
+          include-hidden-files: true
+          retention-days: 7

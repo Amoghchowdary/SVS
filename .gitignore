@@ -1,14 +1,8 @@
-# Local install and generated outputs
 node_modules/
-dist/
-release/
 *.log
-*.tmp
 .DS_Store
-Thumbs.db
 .env
 .env.*
-# Browser previews and local artifacts
-V??_*Preview*.png
-playwright-report/
-test-results/
+!.env.example
+# dist is committed only if explicitly chosen; GitHub Actions rebuilds it automatically.
+dist/
