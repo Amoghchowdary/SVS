@@ -1,4 +1,6 @@
 {
   "rootDomain": "",
-  "comment": "Enter the actual registered parent domain here, for example svsgroup.in, before production deployment. Leave empty for localhost testing."
+  "hosting": "github-pages",
+  "defaultPath": "/SVS/",
+  "instructions": "Leave blank until a GitHub Pages custom domain is configured through Settings > Pages."
 }

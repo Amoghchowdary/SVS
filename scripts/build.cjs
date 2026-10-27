@@ -4,17 +4,24 @@ const root=path.resolve(__dirname,'..'),dist=path.join(root,'dist');
 const {sites}=require('../src/content.cjs');
 const {editorial}=require('../src/editorial.cjs');
 const {icon}=require('../src/legacy-icons.cjs');
-const domain=require('../config/domain.json').rootDomain.trim();
+// Pages project URL base (/SVS/) until a GitHub Pages custom domain is enabled.
+// When a verified custom domain is enabled, build with SVS_BASE_PATH=/ .
+const rawBase=process.env.SVS_BASE_PATH||'/';
+if(!(rawBase==='/'||/^\/[A-Za-z0-9/_-]+\/$/.test(rawBase)))throw new Error('SVS_BASE_PATH must be a safe slash-prefixed directory, e.g. /SVS/ or /');
+const base=rawBase;
+const domain='';
+const siteRoot=id=>base+(id==='group'?'':id+'/');
+const homeLink=id=>siteRoot(id);
 const E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const routes=['','about','programmes','departments','facilities','contact'];
 const routeName=(s,r)=>({'':'Home',about:'Our story',programmes:s.type==='hospital'?'Services':'Programmes',departments:s.type==='hospital'?'Specialties':'Departments',facilities:'Facilities',contact:'Contact'})[r];
 const image=(name,alt='',klass='',lazy=true)=>`<img class="${klass}" src="/assets/official/${E(name)}" alt="${E(alt)}" loading="${lazy?'lazy':'eager'}" decoding="async">`;
 const kicker=(name)=>`<span class="eyebrow"><span class="eyebrow-rule"></span>${E(name)}</span>`;
 const link=(label,href,cls='plain-link')=>`<a class="${cls}" href="${href}">${E(label)} <span aria-hidden="true">↗</span></a>`;
-const homeLink=(id)=>`/?site=${E(id)}`;
+
 const siteSwitcher=sites.map((s,i)=>`<a class="institution-link" data-site="${E(s.id)}" href="${homeLink(s.id)}"><span class="inst-num">${String(i+1).padStart(2,'0')}</span><span>${E(s.name)}</span><span class="inst-arrow" aria-hidden="true">↗</span></a>`).join('');
 const iconTiles={medicalcollege:'medicalcollege',medicalhospital:'medicalhospital',dentalcollege:'dentalcollege',dentalhospital:'dentalhospital',nursingcollege:'nursingcollege'};
-function nav(site,page){return `<a class="skip" href="#main-content">Skip to content</a><div class="topbar"><div class="wide topbar-inner"><span>SVS GROUP OF INSTITUTIONS <span class="topbar-dot">·</span> YENUGONDA, MAHABUBNAGAR</span><a href="/contact/">ENQUIRIES & CONTACT <span aria-hidden="true">↗</span></a></div></div><header class="header"><div class="wide header-row"><a class="brand" href="/" aria-label="${E(site.name)}, homepage"><span class="brand-seal"><b>SVS</b><small>MEDICAL</small></span><span class="brand-word"><strong>${E(site.id==='group'?'SVS Group':site.short)}</strong><span>${site.id==='group'?'GROUP OF INSTITUTIONS':'SVS GROUP OF INSTITUTIONS'}</span></span></a><nav class="nav" id="primaryNav" aria-label="Primary navigation">${routes.map(r=>`<a href="/${r?r+'/':''}" ${r===page?'aria-current="page" class="active"':''}>${E(routeName(site,r))}</a>`).join('')}</nav><div class="head-actions"><button id="switchBtn" aria-expanded="false" aria-controls="switchMenu" type="button" class="site-switch">Our institutions <span aria-hidden="true">⌄</span></button><button id="mobileToggle" type="button" class="mobile-toggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Open navigation">☰</button></div></div><div class="site-menu" id="switchMenu" hidden><div class="site-menu-label">THE SVS INSTITUTIONAL FAMILY</div>${siteSwitcher}</div></header>`}
+function nav(site,page){return `<a class="skip" href="#main-content">Skip to content</a><div class="topbar"><div class="wide topbar-inner"><span>SVS GROUP OF INSTITUTIONS <span class="topbar-dot">·</span> YENUGONDA, MAHABUBNAGAR</span><a href="/contact/">ENQUIRIES & CONTACT <span aria-hidden="true">↗</span></a></div></div><header class="header"><div class="wide header-row"><a class="brand" href="${homeLink(site.id)}" aria-label="${E(site.name)}, homepage"><span class="brand-seal"><b>SVS</b><small>MEDICAL</small></span><span class="brand-word"><strong>${E(site.id==='group'?'SVS Group':site.short)}</strong><span>${site.id==='group'?'GROUP OF INSTITUTIONS':'SVS GROUP OF INSTITUTIONS'}</span></span></a><nav class="nav" id="primaryNav" aria-label="Primary navigation">${routes.map(r=>`<a href="/${r?r+'/':''}" ${r===page?'aria-current="page" class="active"':''}>${E(routeName(site,r))}</a>`).join('')}</nav><div class="head-actions"><button id="switchBtn" aria-expanded="false" aria-controls="switchMenu" type="button" class="site-switch">Our institutions <span aria-hidden="true">⌄</span></button><button id="mobileToggle" type="button" class="mobile-toggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Open navigation">☰</button></div></div><div class="site-menu" id="switchMenu" hidden><div class="site-menu-label">THE SVS INSTITUTIONAL FAMILY</div>${siteSwitcher}</div></header>`}
 function footer(site){return `<footer class="footer"><div class="wide footer-grid"><div><a class="foot-logo" href="/">SVS <span>Group of Institutions</span></a><p>Professional education, clinical care and community service in Mahabubnagar. The Society’s history begins in 1997.</p><p class="footer-address">Yenugonda, Mahabubnagar – 509001, Telangana</p></div><div><h3>Explore ${E(site.short)}</h3>${routes.filter(Boolean).map(r=>`<a href="/${r}/">${E(routeName(site,r))}</a>`).join('')}</div><div><h3>The institutions</h3>${sites.filter(s=>s.id!=='group').map(s=>`<a href="${homeLink(s.id)}" data-site="${E(s.id)}">${E(s.short)}</a>`).join('')}</div><div><h3>Contact</h3><a href="tel:+918542227902">08542-227902</a><a href="mailto:svsmc_mbnr@yahoo.co.in">svsmc_mbnr@yahoo.co.in</a><p>Course seats, affiliations and contact rosters are subject to the latest official notices.</p></div></div><div class="wide foot-bottom"><span>© ${new Date().getFullYear()} Sri Venkata Sai Educational Society</span><span>SVS Group of Institutions · Mahabubnagar</span></div></footer>`}
 function film(){return `<section class="heritage-film" aria-label="Aerial footage of SVS Medical College campus"><video class="heritage-film-video" autoplay muted loop playsinline preload="metadata" poster="/assets/official/svs-campus-video-poster.jpg" aria-label="Aerial view of SVS Medical College campus in Mahabubnagar"><source src="/assets/official/svs-campus-aerial.mp4" type="video/mp4"></video><span class="sr-only">A moving aerial view of the SVS Medical College and surrounding campus.</span></section>`}
 function groupIntro(site,copy){return `<section class="intro editorial-pad"><div class="wide intro-grid"><div class="intro-side">${kicker('SRI VENKATA SAI EDUCATIONAL SOCIETY')}<span class="intro-year">Founded in 1997</span></div><div class="intro-copy"><h1>For a life of <em>learning.</em><br>For a community of <em>care.</em></h1><p class="lead">${E(copy.intro)}</p><p>${E(copy.detail)}</p><div class="action-row">${link('Read our story','/about/','button button-primary')}${link('Explore programmes','/programmes/','text-action')}</div></div><aside class="intro-facts"><div><b>1997</b><span>The Society begins</span></div><div><b>1999</b><span>SVS Medical College established</span></div><div><b>05</b><span>Specialist websites</span></div></aside></div></section>`}
@@ -36,8 +43,34 @@ function page(site,r){const copy=editorial[site.id];if(site.id==='group'&&r===''
  const head=innerHero(site,r,copy);
  const body=({about:()=>story(site,copy)+featureCards(site,copy)+people(site)+gallery(site,copy),programmes:()=>programmeCards(site,copy)+story(site,copy)+featureCards(site,copy),departments:()=>departments(site,copy)+gallery(site,copy),facilities:()=>facilities(site,copy)+gallery(site,copy)+featureCards(site,copy),contact:()=>contact(site,copy)})[r]();return head+body+cta(site);
 }
-function html(site,r){const name=r?`${routeName(site,r)} | ${site.name}`:`${site.name} | SVS Group of Institutions`;const descr=editorial[site.id].lead;return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#082f43"><meta name="description" content="${E(descr)}"><title>${E(name)}</title><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/site.css"><link rel="stylesheet" href="/assets/editorial-v26.css"><script>window.__SVS_SITE__=${JSON.stringify(site.id)};window.__SVS_DOMAIN__=${JSON.stringify(domain)};</script><script defer src="/assets/site.js"></script></head><body data-site="${E(site.id)}" style="--accent:${E(site.accent)}">${nav(site,r)}<main id="main-content">${page(site,r)}</main>${footer(site)}</body></html>`}
+function html(site,r){
+ const name=r?`${routeName(site,r)} | ${site.name}`:`${site.name} | SVS Group of Institutions`;
+ const descr=editorial[site.id].lead;
+ let doc=`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#082f43"><meta name="description" content="${E(descr)}"><title>${E(name)}</title><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/assets/site.css"><link rel="stylesheet" href="/assets/editorial-v27.css"><script>window.__SVS_SITE__=${JSON.stringify(site.id)};window.__SVS_BASE_PATH__=${JSON.stringify(base)};</script><script defer src="/assets/site.js"></script></head><body data-site="${E(site.id)}" style="--accent:${E(site.accent)}">${nav(site,r)}<main id="main-content">${page(site,r)}</main>${footer(site)}</body></html>`;
+ // All pages are static documents. Rewrite absolute root paths for GitHub Pages
+ // project hosting and for nested pages under /medicalcollege/, /nursingcollege/, etc.
+ // Cross-site destinations already contain the exact build base, so leave them unchanged.
+ const target=siteRoot(site.id);
+ doc=doc.replace(/(href|src)="\/([^"]*)"/g,(all,attr,rest)=>{
+   if((base!=='/' && rest.startsWith(base.slice(1))) || (base==='/' && sites.some(s=>s.id!=='group' && rest.startsWith(s.id+'/'))))return all;
+   const url=rest.startsWith('assets/')?base+rest:target+rest;
+   return `${attr}="${url}"`;
+ });
+ return doc;
+}
 function copyDir(src,dst){fs.mkdirSync(dst,{recursive:true});for(const ent of fs.readdirSync(src,{withFileTypes:true})){const s=path.join(src,ent.name),d=path.join(dst,ent.name);if(ent.isDirectory())copyDir(s,d);else fs.copyFileSync(s,d)}}
-function build(){fs.rmSync(dist,{force:true,recursive:true});copyDir(path.join(root,'public','assets'),path.join(dist,'assets'));for(const file of ['site.css','site.js','editorial-v26.css','favicon.svg'])fs.copyFileSync(path.join(root,'public',file),path.join(dist,'assets',file));for(const s of sites)for(const r of routes){const dir=path.join(dist,'_sites',s.id,r);fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),html(s,r));}
- fs.writeFileSync(path.join(dist,'index.html'),html(sites[0],''));fs.writeFileSync(path.join(dist,'404.html'),html(sites[0],''));fs.copyFileSync(path.join(root,'cloudflare','_worker.js'),path.join(dist,'_worker.js'));fs.writeFileSync(path.join(dist,'robots.txt'),'User-agent: *\nDisallow: /_sites/\n');fs.writeFileSync(path.join(dist,'.nojekyll'),'');console.log(`SVS V26 built ${sites.length} site identities and ${sites.length*routes.length} complete pages.`)}
+function build(){
+ fs.rmSync(dist,{force:true,recursive:true});
+ copyDir(path.join(root,'public','assets'),path.join(dist,'assets'));
+ for(const file of ['site.css','site.js','editorial-v27.css','favicon.svg'])fs.copyFileSync(path.join(root,'public',file),path.join(dist,'assets',file));
+ for(const s of sites)for(const route of routes){
+   const dir=s.id==='group'?path.join(dist,route):path.join(dist,s.id,route);
+   fs.mkdirSync(dir,{recursive:true});fs.writeFileSync(path.join(dir,'index.html'),html(s,route));
+ }
+ fs.writeFileSync(path.join(dist,'404.html'),html(sites[0],''));
+ fs.writeFileSync(path.join(dist,'robots.txt'),'User-agent: *\nAllow: /\n');
+ fs.writeFileSync(path.join(dist,'.nojekyll'),'');
+ console.log(`SVS V27 GitHub Pages: ${sites.length} institutions, ${sites.length*routes.length} pages, base=${base}`);
+}
+
 if(require.main===module)build();module.exports={build,html,routes};

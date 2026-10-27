@@ -1,73 +1,56 @@
-# SVS Group of Institutions — V26 Editorial Legacy
+# SVS Group of Institutions — V27 (GitHub Pages only)
 
-**Complete, independent six-destination website package.** This version does not require V24, V23, or any previous folder. All front-end source, images, campus video, page templates, local server, Cloudflare Pages Worker, and GitHub Actions files are bundled.
+This standalone source package includes a parent SVS Group website and five institution-specific websites. It uses **GitHub Pages only** for public hosting, with a single repository and one website hostname.
 
-## Six destinations
+## Public website routes (without a custom domain)
 
-| Website | Local URL (port 3003) |
-| --- | --- |
-| SVS Group of Institutions | http://localhost:3003/ |
-| SVS Medical College | http://medicalcollege.localhost:3003/ |
-| SVS Medical College Hospital | http://medicalhospital.localhost:3003/ |
-| SVS Dental College | http://dentalcollege.localhost:3003/ |
-| SVS Dental Hospital | http://dentalhospital.localhost:3003/ |
-| SVS Nursing College | http://nursingcollege.localhost:3003/ |
+- Main SVS Group — `https://amoghchowdary.github.io/SVS/`
+- Medical College — `https://amoghchowdary.github.io/SVS/medicalcollege/`
+- Medical Hospital — `https://amoghchowdary.github.io/SVS/medicalhospital/`
+- Dental College — `https://amoghchowdary.github.io/SVS/dentalcollege/`
+- Dental Hospital — `https://amoghchowdary.github.io/SVS/dentalhospital/`
+- Nursing College — `https://amoghchowdary.github.io/SVS/nursingcollege/`
 
-All destinations have individual **Home / Our story / Programmes or Services / Departments / Facilities / Contact** pages. The main group portal links to all five. Use `http://localhost:3003/?site=medicalcollege` as a fallback if Windows browser/DNS does not resolve `*.localhost`.
+All six are **static websites**, generated from one source of content and assets and deployed in one GitHub Pages artifact. Each institution has Home, About, Programmes/Services, Departments, Facilities, and Contact pages.
 
-## Quick start — Windows PowerShell
+## Local server
+
+From the extracted project folder:
 
 ```powershell
-cd "C:\Users\SarkshGroups\OneDrive\Desktop\SVS\SVS_MultiSite_V26_CI_Verified"
-
-node --version
 npm run build
 npm test
 npm run dev
 ```
 
-Node.js **20+** required. `npm install` is optional because V26 uses no external runtime packages. Use `START_V26_LOCAL.bat` to launch directly. You can stop the local server using Ctrl+C.
+The development server is on port 3003. Visit `http://localhost:3003/`, `http://medicalcollege.localhost:3003/`, `http://medicalhospital.localhost:3003/`, `http://dentalcollege.localhost:3003/`, `http://dentalhospital.localhost:3003/`, and `http://nursingcollege.localhost:3003/`.
 
-## Preserved V25 website design and V26 GitHub CI fixes
+To build exactly what will be deployed to the GitHub Pages project site:
 
-- **No boxed video:** group home hero remains a full-bleed version of the official supplied aerial campus video.
-- **Heritage editorial typography:** calm serif headlines, restrained colour, wider content and consistent spacing.
-- **In-depth writing:** revised from the supplied SVS brochure, without generic company slogans or unexplained numbers.
-- **Photography-rich institution tiles:** five distinct destinations with visible media and individual vector icons.
-- **Fuller academic and clinical pages:** editorial introduction, programme/service panels, photographs, practical information, facilities, and support links.
-- **Responsive navigation:** desktop horizontal menu, tablet and mobile toggle, keyboard-accessible institution switcher.
-- **No DNA/galaxy assets:** those were removed from the earlier production direction.
-
-## Source structure
-
-```text
-src/content.cjs           Medical-college brochure content and institution maps
-src/editorial.cjs         Extended contextual editorial copy for each institution
-src/legacy-icons.cjs      Consistent inline SVGs
-scripts/build.cjs         Generates 36 complete HTML pages and the public distribution
-scripts/server.cjs        One HTTP server; routes by hostname or `?site=` on port 3003
-scripts/verify.cjs        Base structural checks
-scripts/verify-v26.cjs    V26-specific source/asset/content checks
-scripts/worker_verify.mjs Tests host routing at the Cloudflare Worker layer
-public/site.js            Accessible navigation, switcher, filtering, motion policy
-public/site.css           Reset
-public/editorial-v26.css  Full responsive institutional design system
-public/assets/official/  Local official photos and campus video
-cloudflare/_worker.js     Multi-domain site dispatch for Cloudflare Pages
-dist/                     Complete ready-built deployment output
-.github/workflows/        CI verification and optional Cloudflare deploy workflow
+```powershell
+$env:SVS_BASE_PATH = "/SVS/"
+npm run build
+npm test
+Remove-Item Env:\SVS_BASE_PATH
 ```
 
-## Production deployment
+## GitHub Actions
 
-See `DNS_SETUP.md`. Configure `config/domain.json` with the approved registered domain before production build. The six-domain routing design is intended for one Cloudflare Pages project with host-based selection. Each hostname must be added in Cloudflare Pages as a custom domain and configured in DNS; a DNS record alone is not the deployment.
+- `.github/workflows/verify.yml` — builds and tests every page in CI.
+- `.github/workflows/deploy-pages.yml` — deploys the `dist/` build through **GitHub Pages** on every push to `main`.
 
-A GitHub Actions verification workflow runs automatically on pull requests and `main`. Optional Cloudflare deployment is gated behind repository configuration and does **not** run until secrets and project variable exist.
+Repository: https://github.com/Amoghchowdary/SVS
 
-## Content publication gates
+After pushing, open **Settings → Pages → Build and deployment → Source: GitHub Actions**, then review the Actions workflow. The URL is not live until the workflow reports successful publication.
 
-The brochure documents society establishment in **1997** and medical college establishment in **1999**. MBBS and postgraduate MD/MS programmes, facilities and departments are described there, but current approvals, seat intakes, doctors, fees, and availability should be independently signed off by SVS before public publication.
+## Moving to a single purchased domain in the future
 
-The supplied medical-college brochure does **not** establish dental and nursing colleges' full course inventories, founding dates, approvals or seat figures. Their websites are deliberately navigable yet avoid inventing official details. The available group photographs cannot be represented as photographs of unverified dental facilities.
+GitHub Pages supports one custom site hostname (plus its standard apex/www pairing). First add and verify the custom domain in **Settings → Pages**. Then set the GitHub Actions repository variable `SVS_BASE_PATH` to `/`, so the existing static routes become `https://www.example.in/medicalcollege/`, etc. Configure the DNS record for that one custom hostname according to GitHub Pages instructions. The domain in this paragraph is an example, not a configured domain.
 
-There is **no production patient portal, student authentication, scheduling, appointment booking, or backend storage** in this version. Contact information is displayed without an insecure demo form.
+**Five independent subdomains cannot be assigned to one GitHub Pages project by adding five CNAME records.** If those independent hostnames become mandatory, one approach is separate GitHub Pages projects/repositories for each institution. That would be a separate deployment architecture and is not part of this release.
+
+## Publication limitations
+
+Medical-college and hospital material is based on the supplied brochure, with historical assertions that need current institution approval. Dental and nursing credentials, programmes and claims were not verified by the supplied brochure and remain qualified. No booking portal, authenticated staff backend or dynamic server is claimed in this static release.
+
+Older local version folders are not required to build or deploy V27. The deployment clone should **retain its `.git` directory** during version replacement.

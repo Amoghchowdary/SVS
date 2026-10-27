@@ -1,13 +1,13 @@
 {
-  "name": "svs-multisite-v26-ci-verified",
-  "version": "26.0.0",
+  "name": "svs-multisite-v27-github-pages",
+  "version": "27.0.0",
   "private": true,
-  "description": "Complete standalone SVS multi-site website with Git-checkout-safe V26 verification and all 6 institutional websites.",
+  "description": "Full standalone six-website SVS static GitHub Pages deployment, without serverless hosting requirements.",
   "scripts": {
     "dev": "node scripts/server.cjs",
     "build": "node scripts/build.cjs",
-    "test": "node scripts/verify.cjs && node scripts/verify-v26.cjs && node scripts/worker_verify.mjs",
-    "verify:v26": "node scripts/verify-v26.cjs"
+    "test": "node scripts/verify.cjs && node scripts/verify-v27.cjs",
+    "verify:v27": "node scripts/verify-v27.cjs"
   },
   "engines": {
     "node": ">=20"

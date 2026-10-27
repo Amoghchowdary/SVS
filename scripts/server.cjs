@@ -12,7 +12,7 @@ const server=http.createServer((req,res)=>{
   if(req.method!=='GET'&&req.method!=='HEAD'){res.writeHead(405);res.end('Method not allowed');return}
   const url=new URL(req.url,'http://localhost');let p=decodeURIComponent(url.pathname);if(p.includes('\0')||p.includes('..')||p.includes('\\')){res.writeHead(400);res.end('Bad path');return}
   const site=siteFor(req,url);
-  if(p==='/'||routes.has(p.replace(/^\/+|\/+$/g,''))){const route=p.replace(/^\/+|\/+$/g,'');p=`/_sites/${site}/${route?route+'/':''}index.html`}
+  if(p==='/'||routes.has(p.replace(/^\/+|\/+$/g,''))){const route=p.replace(/^\/+|\/+$/g,'');p=`/${site==='group'?'':site+'/'}${route?route+'/':''}index.html`}
   if(p.endsWith('/')&&!p.startsWith('/assets/'))p+='index.html';
   const file=path.resolve(root,'.'+p);if(!file.startsWith(root+path.sep)){res.writeHead(403);res.end('Forbidden');return}
   if(!fs.existsSync(file)||!fs.statSync(file).isFile()){res.writeHead(404,{'Content-Type':'text/plain; charset=utf-8'});res.end('Not found');return}
@@ -25,4 +25,4 @@ const server=http.createServer((req,res)=>{
   res.writeHead(status,headers);if(req.method==='HEAD'){res.end();return}fs.createReadStream(file,{start,end}).pipe(res);
  }catch(err){console.error(err);res.writeHead(500);res.end('Server error');}
 });
-server.listen(port,host,()=>console.log(`SVS V26 on port ${port}\nGroup: http://localhost:${port}\nMedical College: http://medicalcollege.localhost:${port}\nMedical Hospital: http://medicalhospital.localhost:${port}\nDental College: http://dentalcollege.localhost:${port}\nDental Hospital: http://dentalhospital.localhost:${port}\nNursing College: http://nursingcollege.localhost:${port}\nFallback: http://localhost:${port}/?site=medicalcollege`));
+server.listen(port,host,()=>console.log(`SVS V27 on port ${port}\nGroup: http://localhost:${port}\nMedical College: http://medicalcollege.localhost:${port}\nMedical Hospital: http://medicalhospital.localhost:${port}\nDental College: http://dentalcollege.localhost:${port}\nDental Hospital: http://dentalhospital.localhost:${port}\nNursing College: http://nursingcollege.localhost:${port}\nFallback: http://localhost:${port}/?site=medicalcollege`));

@@ -3,11 +3,11 @@
  const pageSite=window.__SVS_SITE__||'group';
  const host=location.hostname.toLowerCase();
  const local=host==='localhost'||host.endsWith('.localhost')||host==='127.0.0.1';
- const rootDomain=(window.__SVS_DOMAIN__||'').trim().replace(/^https?:\/\//,'').replace(/\/$/,'');
- function siteUrl(id){if(!ids.includes(id))id='group';
-  if(local){let base=host.endsWith('.localhost')||host==='localhost'?'localhost':'localhost';return `${location.protocol}//${id==='group'?'':id+'.'}${base}:${location.port||'3003'}/`;}
-  if(rootDomain)return `${location.protocol}//${id==='group'?'':id+'.'}${rootDomain}/`;
-  return `/?site=${encodeURIComponent(id)}`;
+ const base=window.__SVS_BASE_PATH__||'/';
+ function siteUrl(id){
+  if(!ids.includes(id))id='group';
+  if(local){const h=id==='group'?'localhost':`${id}.localhost`;return `${location.protocol}//${h}:${location.port||'3003'}/`;}
+  return `${base}${id==='group'?'':id+'/'}`;
  }
  document.querySelectorAll('a[data-site]').forEach(a=>{a.href=siteUrl(a.dataset.site);});
  const fallbackSite=new URLSearchParams(location.search).get('site');

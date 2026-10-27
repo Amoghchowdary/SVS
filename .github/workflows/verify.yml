@@ -1,8 +1,10 @@
-name: Verify SVS Multi-Site
+name: Verify SVS Website
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -13,16 +15,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Confirm GitHub checkout contains Git metadata
-        run: test -d .git
-      - name: Build six site variants
+      - name: Build static routes for GitHub Pages
         run: npm run build
-      - name: Verify 6 sites, assets and Git-checkout-safe V26 release
+        env:
+          SVS_BASE_PATH: /SVS/
+      - name: Verify all six websites and assets
         run: npm test
-      - name: Store deployable Cloudflare Pages output
+      - name: Archive GitHub Pages build
         uses: actions/upload-artifact@v4
         with:
-          name: svs-v26-multisite-dist
+          name: svs-v27-pages-build
           path: dist/
           include-hidden-files: true
           retention-days: 7
